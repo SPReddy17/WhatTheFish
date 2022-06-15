@@ -52,6 +52,8 @@ dependencies{
     implementation(project(Modules.ui_fishList))
     implementation(project(Modules.ui_fishDetail))
 
+    implementation(Accompanist.animations)
+
     implementation(AndroidX.coreKtx)
     implementation(AndroidX.appCompat)
     implementation(AndroidX.lifecycleVmKtx)
