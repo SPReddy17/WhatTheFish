@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.DataState
 import com.example.core.Logger
+import com.example.core.Queue
 import com.example.core.UIComponent
 import com.example.fish_domain.FishFilter
 import com.example.fish_interactors.FilterFishes
@@ -14,6 +15,7 @@ import com.example.fish_interactors.GetFishes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -50,6 +52,9 @@ constructor(
             is FishListEvents.UpdateFilterDialogState -> {
                 state.value = state.value.copy(filterDialogState = event.uiComponentState)
             }
+            is FishListEvents.OnRemoveHeadFromQueue -> {
+                removeHeadMessage()
+            }
         }
     }
 
@@ -79,6 +84,7 @@ constructor(
                     when (dataState.uiComponent) {
                         is UIComponent.Dialog -> {
                             logger.log((dataState.uiComponent as UIComponent.Dialog).description)
+                            appendToMessageQueue(dataState.uiComponent)
                         }
                         is UIComponent.None -> {
                             logger.log((dataState.uiComponent as UIComponent.None).message)
@@ -94,5 +100,23 @@ constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    private fun appendToMessageQueue(uiComponent: UIComponent){
+        val queue = state.value.errorQueue
+        queue.add(uiComponent)
+        state.value = state.value.copy(errorQueue = Queue(mutableListOf())) //forces recompose
+        state.value = state.value.copy(errorQueue =  queue)
+    }
+
+    private fun removeHeadMessage() {
+        try {
+            val queue = state.value.errorQueue
+            queue.remove()
+            state.value = state.value.copy(errorQueue = Queue(mutableListOf())) //forces recompose
+            state.value = state.value.copy(errorQueue =  queue)
+        }catch (e :Exception){
+            logger.log("Nothing to remove from dialog queue")
+        }
     }
 }

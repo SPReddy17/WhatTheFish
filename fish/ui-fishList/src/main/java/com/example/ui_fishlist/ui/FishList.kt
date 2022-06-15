@@ -1,18 +1,12 @@
-package com.example.ui_fishlist
-
-import androidx.compose.foundation.layout.Box
+package com.example.ui_fishlist.ui
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.Modifier
 import coil.ImageLoader
 import com.example.components.DefaultScreenUI
-import com.example.core.ProgressBarState
 import com.example.core.UIComponentState
 import com.example.ui_fishlist.components.FishListFilter
 import com.example.ui_fishlist.components.FishListItem
@@ -20,7 +14,8 @@ import com.example.ui_fishlist.components.FishListToolbar
 import com.example.ui_fishlist.ui.FishListEvents
 import com.example.ui_fishlist.ui.FishListState
 
-@OptIn(ExperimentalComposeUiApi::class, androidx.compose.animation.ExperimentalAnimationApi::class)
+@ExperimentalAnimationApi
+@ExperimentalComposeUiApi
 @Composable
 fun FishList(
     state: FishListState,
@@ -28,9 +23,13 @@ fun FishList(
     imageLoader: ImageLoader,
     navigateToDetailScreen: (String) -> Unit
 ) {
-    DefaultScreenUI (
-        progressBarState = state.progressBarState
-            ){
+    DefaultScreenUI(
+        progressBarState = state.progressBarState,
+        queue = state.errorQueue,
+        onRemoveHeadFromQueue = {
+            events(FishListEvents.OnRemoveHeadFromQueue)
+        }
+    ) {
         Column() {
             FishListToolbar(
                 fishName = state.fishName,

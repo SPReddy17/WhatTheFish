@@ -6,4 +6,6 @@ sealed class FishDetailEvents{
     data class GetFishFromCache(
         val scientificName : String,
     ):FishDetailEvents()
+
+    object OnRemoveHeadFromQueue :FishDetailEvents()
 }

@@ -26,10 +26,15 @@ import org.jsoup.Jsoup
 fun FishDetail(
     state: FishDetailState,
     imageLoader: ImageLoader,
+    events : (FishDetailEvents) -> Unit,
 ) {
 
     DefaultScreenUI(
-        progressBarState = state.progressBarState
+        progressBarState = state.progressBarState,
+        queue = state.errorQueue,
+        onRemoveHeadFromQueue = {
+            events(FishDetailEvents.OnRemoveHeadFromQueue)
+        }
     ) {
         state.fish?.let { fish ->
             LazyColumn(

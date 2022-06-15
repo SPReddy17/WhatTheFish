@@ -15,7 +15,7 @@ import coil.ImageLoader
 import com.example.fish_interactors.FishInteractors
 import com.example.ui_fishdetail.ui.FishDetail
 import com.example.ui_fishdetail.ui.FishDetailViewModel
-import com.example.ui_fishlist.FishList
+import com.example.ui_fishlist.ui.FishList
 import com.example.ui_fishlist.ui.FishListViewModel
 import com.example.whatthefish.ui.navigation.Screen
 import com.example.whatthefish.ui.theme.WhatTheFishTheme
@@ -73,6 +73,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@ExperimentalComposeUiApi
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.addFishList(
     navController: NavController,
@@ -140,7 +141,8 @@ fun NavGraphBuilder.addFishDetail(imageLoader: ImageLoader, width: Int) {
         val viewmodel: FishDetailViewModel = hiltViewModel()
         FishDetail(
             state = viewmodel.state.value,
-            imageLoader = imageLoader
+            imageLoader = imageLoader,
+            events = viewmodel::onTriggerEvent
         )
     }
 }
