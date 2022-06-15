@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.compose.rememberImagePainter
+import com.example.components.DefaultScreenUI
 import com.example.fish_domain.Fish
 import com.example.ui_fishdetail.R
 import org.jsoup.Jsoup
@@ -26,79 +27,85 @@ fun FishDetail(
     state: FishDetailState,
     imageLoader: ImageLoader,
 ) {
-    state.fish?.let { fish ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colors.background)
-        ) {
-            item {
-                Column {
-                    val painter = rememberImagePainter(
-                        fish.speciesIllustrationPhoto?.src,
-                        imageLoader = imageLoader,
-                        builder = {
-                            placeholder(if (isSystemInDarkTheme()) R.drawable.black_background else R.drawable.white_background)
-                        }
-                    )
-                    Image(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .defaultMinSize(minHeight = 200.dp),
-                        painter = painter,
-                        contentDescription = fish.scientificName,
-                        contentScale = ContentScale.Fit,
-                    )
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(12.dp)
-                    ) {
-                        Row(
+
+    DefaultScreenUI(
+        progressBarState = state.progressBarState
+    ) {
+        state.fish?.let { fish ->
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colors.background)
+            ) {
+                item {
+                    Column {
+                        val painter = rememberImagePainter(
+                            fish.speciesIllustrationPhoto?.src,
+                            imageLoader = imageLoader,
+                            builder = {
+                                placeholder(if (isSystemInDarkTheme()) R.drawable.black_background else R.drawable.white_background)
+                            }
+                        )
+                        Image(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(bottom = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween
+                                .defaultMinSize(minHeight = 200.dp),
+                            painter = painter,
+                            contentDescription = fish.scientificName,
+                            contentScale = ContentScale.Fit,
+                        )
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(12.dp)
                         ) {
-                            fish.speciesName?.let { fishSpeciesName ->
-                                Text(
-                                    modifier = Modifier
-                                        .align(Alignment.CenterVertically)
-                                        .padding(end = 8.dp),
-                                    text = fishSpeciesName,
-                                    style = MaterialTheme.typography.h1,
-                                )
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 8.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                fish.speciesName?.let { fishSpeciesName ->
+                                    Text(
+                                        modifier = Modifier
+                                            .align(Alignment.CenterVertically)
+                                            .padding(end = 8.dp),
+                                        text = fishSpeciesName,
+                                        style = MaterialTheme.typography.h1,
+                                    )
+                                }
                             }
+                            Text(
+                                modifier = Modifier
+                                    .padding(bottom = 4.dp),
+                                text = "Scientific Name : ${fish.scientificName}",
+                                style = MaterialTheme.typography.subtitle1,
+                            )
+                            Text(
+                                modifier = Modifier
+                                    .padding(bottom = 12.dp),
+                                text = "Physical Description: ${html2text(fish.physicalDescription)}",
+                                style = MaterialTheme.typography.subtitle1,
+                            )
+                            Text(
+                                modifier = Modifier
+                                    .padding(bottom = 12.dp),
+                                text = "Taste: ${html2text(fish.taste)}",
+                                style = MaterialTheme.typography.subtitle1,
+                            )
+                            FishBaseStats(
+                                fish = fish,
+                                padding = 10.dp,
+                            )
+                            Spacer(modifier = Modifier.height(12.dp))
+                            //WinPercentages(hero = hero,)
                         }
-                        Text(
-                            modifier = Modifier
-                                .padding(bottom = 4.dp),
-                            text = "Scientific Name : ${fish.scientificName}",
-                            style = MaterialTheme.typography.subtitle1,
-                        )
-                        Text(
-                            modifier = Modifier
-                                .padding(bottom = 12.dp),
-                            text = "Physical Description: ${html2text(fish.physicalDescription)}",
-                            style = MaterialTheme.typography.subtitle1,
-                        )
-                        Text(
-                            modifier = Modifier
-                                .padding(bottom = 12.dp),
-                            text = "Taste: ${html2text(fish.taste)}",
-                            style = MaterialTheme.typography.subtitle1,
-                        )
-                        FishBaseStats(
-                            fish = fish,
-                            padding = 10.dp,
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
-                        //WinPercentages(hero = hero,)
                     }
                 }
             }
         }
+
     }
 }
 
@@ -111,18 +118,17 @@ fun html2text(html: String?): String {
 fun FishBaseStats(
     fish: Fish,
     padding: Dp,
-){
+) {
     Surface(
         modifier = Modifier
             .fillMaxWidth(),
         elevation = 8.dp,
         shape = MaterialTheme.shapes.medium
-    ){
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(padding)
-            ,
+                .padding(padding),
         ) {
             Text(
                 modifier = Modifier
@@ -134,19 +140,18 @@ fun FishBaseStats(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-            ){
+            ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth(0.5f)
                         .padding(end = 20.dp)
-                ){ // Str, Agi, Int, Health
+                ) { // Str, Agi, Int, Health
                     Row( // STR
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 8.dp)
-                        ,
+                            .padding(bottom = 8.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
-                    ){
+                    ) {
                         Text(
                             text = "${stringResource(R.string.calories)}:",
                             style = MaterialTheme.typography.body2,
@@ -161,15 +166,14 @@ fun FishBaseStats(
                     Row( // AGI
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 8.dp)
-                        ,
+                            .padding(bottom = 8.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
-                    ){
+                    ) {
                         Text(
                             text = "${stringResource(R.string.cholesterol)}:",
                             style = MaterialTheme.typography.body2,
                         )
-                        Row{
+                        Row {
                             Text(
                                 text = "${fish.cholesterol}",
                                 style = MaterialTheme.typography.body2,
@@ -179,15 +183,14 @@ fun FishBaseStats(
                     Row( // INT
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 8.dp)
-                        ,
+                            .padding(bottom = 8.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
-                    ){
+                    ) {
                         Text(
                             text = "${stringResource(R.string.protein)}:",
                             style = MaterialTheme.typography.body2,
                         )
-                        Row{
+                        Row {
                             Text(
                                 text = "${fish.protein}",
                                 style = MaterialTheme.typography.body2,
@@ -197,10 +200,9 @@ fun FishBaseStats(
                     Row( // HP
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 8.dp)
-                        ,
+                            .padding(bottom = 8.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
-                    ){
+                    ) {
                         Text(
                             text = "${stringResource(R.string.sodium)}:",
                             style = MaterialTheme.typography.body2,
@@ -214,23 +216,21 @@ fun FishBaseStats(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                ){ // Atk Range, proj speed, move speed, atk dmg
+                ) { // Atk Range, proj speed, move speed, atk dmg
                     Row( // Atk Range
                         modifier = Modifier
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
-                    ){
+                    ) {
                         Text(
                             modifier = Modifier
-                                .padding(bottom = 8.dp)
-                            ,
+                                .padding(bottom = 8.dp),
                             text = "${stringResource(R.string.serving_weight)}:",
                             style = MaterialTheme.typography.body2,
                         )
                         Text(
                             modifier = Modifier
-                                .padding(bottom = 8.dp)
-                            ,
+                                .padding(bottom = 8.dp),
                             text = "${fish.servingWeight}",
                             style = MaterialTheme.typography.body2,
                         )
@@ -239,18 +239,16 @@ fun FishBaseStats(
                         modifier = Modifier
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
-                    ){
+                    ) {
                         Text(
                             modifier = Modifier
-                                .padding(bottom = 8.dp)
-                            ,
+                                .padding(bottom = 8.dp),
                             text = "${stringResource(R.string.carbohydrate)}:",
                             style = MaterialTheme.typography.body2,
                         )
                         Text(
                             modifier = Modifier
-                                .padding(bottom = 8.dp)
-                            ,
+                                .padding(bottom = 8.dp),
                             text = "${fish.carbohydrate}",
                             style = MaterialTheme.typography.body2,
                         )
@@ -259,18 +257,16 @@ fun FishBaseStats(
                         modifier = Modifier
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
-                    ){
+                    ) {
                         Text(
                             modifier = Modifier
-                                .padding(bottom = 8.dp)
-                            ,
+                                .padding(bottom = 8.dp),
                             text = "${stringResource(R.string.sugars_total)}:",
                             style = MaterialTheme.typography.body2,
                         )
                         Text(
                             modifier = Modifier
-                                .padding(bottom = 8.dp)
-                            ,
+                                .padding(bottom = 8.dp),
                             text = "${fish.sugarsTotal}",
                             style = MaterialTheme.typography.body2,
                         )
@@ -279,18 +275,16 @@ fun FishBaseStats(
                         modifier = Modifier
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
-                    ){
+                    ) {
                         Text(
                             modifier = Modifier
-                                .padding(bottom = 8.dp)
-                            ,
+                                .padding(bottom = 8.dp),
                             text = "${stringResource(R.string.fat_total)}:",
                             style = MaterialTheme.typography.body2,
                         )
                         Text(
                             modifier = Modifier
-                                .padding(bottom = 8.dp)
-                            ,
+                                .padding(bottom = 8.dp),
                             text = "${fish.fatTotal}",
                             style = MaterialTheme.typography.body2,
                         )

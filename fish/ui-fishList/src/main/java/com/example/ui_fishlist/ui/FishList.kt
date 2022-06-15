@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import coil.ImageLoader
+import com.example.components.DefaultScreenUI
 import com.example.core.ProgressBarState
 import com.example.core.UIComponentState
 import com.example.ui_fishlist.components.FishListFilter
@@ -27,7 +28,9 @@ fun FishList(
     imageLoader: ImageLoader,
     navigateToDetailScreen: (String) -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    DefaultScreenUI (
+        progressBarState = state.progressBarState
+            ){
         Column() {
             FishListToolbar(
                 fishName = state.fishName,
@@ -67,11 +70,13 @@ fun FishList(
                 }
             )
         }
-
-        if (state.progressBarState is ProgressBarState.Loading) {
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
+//
+//        if (state.progressBarState is ProgressBarState.Loading) {
+//            CircularProgressIndicator(
+//                modifier = Modifier.align(Alignment.Center)
+//            )
+//        }
     }
+
+
 }

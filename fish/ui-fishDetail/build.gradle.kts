@@ -4,6 +4,7 @@ apply{
 dependencies{
 
     "implementation"(project(Modules.core))
+    "implementation"(project(Modules.components))
     "implementation"(project(Modules.fishDomain))
     "implementation"(project(Modules.fishInteractors))
     "implementation"(Coil.coil)
