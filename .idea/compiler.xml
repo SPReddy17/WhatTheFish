@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="1.8">
+      <module name="WhatTheFish.app" target="11" />
+      <module name="WhatTheFish.buildSrc" target="11" />
+      <module name="WhatTheFish.components" target="11" />
+      <module name="WhatTheFish.fish.ui-fishDetail" target="11" />
+      <module name="WhatTheFish.fish.ui-fishList" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

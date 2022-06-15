@@ -1,0 +1,158 @@
+import com.example.fish_domain.SpeciesIllustrationPhoto;
+
+CREATE TABLE  fish_Entity(
+    animalHealth TEXT,
+    availability TEXT,
+    biology TEXT,
+    byCatch TEXT,
+    calories TEXT,
+    carbohydrate TEXT,
+    cholesterol TEXT,
+    color TEXT,
+    diseaseTreatmentAndPrevention TEXT,
+    diseasesInSalmon TEXT,
+    displayedSeafoodProfileIllustration TEXT,
+    ecosystemServices TEXT,
+    environmentalConsiderations TEXT,
+    environmentalEffects TEXT,
+    farmingMethods TEXT,
+    farmingMethods_ TEXT,
+    fatTotal TEXT  ,
+    feeds TEXT ,
+    feeds_ TEXT ,
+    fiberTotalDietary TEXT ,
+    fisheryManagement TEXT ,
+    fishingRate TEXT ,
+    habitat TEXT ,
+    habitatImpacts TEXT,
+    harvest TEXT,
+    harvestType TEXT ,
+    healthBenefits TEXT ,
+    humanHealth TEXT ,
+    human_Health_ TEXT,
+    location TEXT ,
+    management TEXT ,
+    NOAAFisheriesRegion TEXT ,
+    path TEXT  ,
+    physicalDescription TEXT  ,
+    population TEXT  ,
+    populationStatus TEXT  ,
+    production TEXT  ,
+    protien TEXT  ,
+    quote TEXT  ,
+    quoteBackgroundColor TEXT  ,
+    research TEXT ,
+    saturatedFattyAcidsTotal TEXT  ,
+    scientificName TEXT PRIMARY KEY,
+    selenium TEXT,
+    servingWeight TEXT,
+
+     servings TEXT ,
+        sodium TEXT  ,
+        source TEXT,
+      speciesAliases TEXT,
+speciesIllustrationPhoto TEXT AS SpeciesIllustrationPhoto,
+         speciesName TEXT ,
+              sugarsTotal TEXT  ,
+              taste TEXT,
+            texture TEXT,
+            last_update TEXT
+);
+
+selectAll:
+SELECT *
+FROM fish_Entity;
+
+insertFish:
+INSERT OR REPLACE
+INTO fish_Entity (
+animalHealth,
+    availability ,
+    biology ,
+    byCatch ,
+    calories ,
+    carbohydrate ,
+    cholesterol ,
+    color ,
+    diseaseTreatmentAndPrevention ,
+    diseasesInSalmon ,
+    displayedSeafoodProfileIllustration ,
+    ecosystemServices ,
+    environmentalConsiderations ,
+    environmentalEffects ,
+    farmingMethods ,
+    farmingMethods_ ,
+    fatTotal   ,
+    feeds  ,
+    feeds_  ,
+    fiberTotalDietary  ,
+    fisheryManagement  ,
+    fishingRate  ,
+    habitat  ,
+    habitatImpacts ,
+    harvest ,
+    harvestType  ,
+    healthBenefits  ,
+    humanHealth  ,
+    human_Health_ ,
+    location  ,
+    management  ,
+    NOAAFisheriesRegion  ,
+    path   ,
+    physicalDescription   ,
+    population   ,
+    populationStatus   ,
+    production   ,
+    protien   ,
+    quote   ,
+    quoteBackgroundColor   ,
+    research  ,
+    saturatedFattyAcidsTotal   ,
+    scientificName ,
+    selenium ,
+    servingWeight ,
+    servings  ,
+    sodium   ,
+    source ,
+    speciesAliases ,
+    speciesIllustrationPhoto,
+    speciesName  ,
+    sugarsTotal,
+    taste,
+    texture,
+    last_update
+) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+--
+-- searchHeroByName:
+-- SELECT * FROM fish_Entity
+-- WHERE localizedName LIKE ('%' || :query || '%');
+
+-- searchHeroByAttr:
+-- SELECT * FROM fish_Entity
+-- WHERE primaryAttribute = :primaryAttr;
+
+-- searchHeroByAttackType:
+-- SELECT * FROM fish_Entity
+-- WHERE attackType = :attackType;
+
+-- searchHeroByRole:
+-- SELECT * FROM fish_Entity
+-- WHERE roleCarry = :roleCarry
+-- AND roleEscape = :roleEscape
+-- AND roleNuker = :roleNuker
+-- AND roleInitiator = :roleInitiator
+-- AND roleDurable = :roleDurable
+-- AND roleDisabler = :roleDisabler
+-- AND roleJungler = :roleJungler
+-- AND roleSupport = :roleSupport
+-- AND rolePusher = :rolePusher
+-- ;
+
+getHero:
+SELECT * FROM fish_Entity
+WHERE scientificName = :scientificName;
+
+removeHero:
+DELETE FROM fish_Entity
+WHERE scientificName = :scientificName;

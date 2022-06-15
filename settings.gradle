@@ -1,0 +1,27 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "WhatTheFish"
+include ':app'
+include ':core'
+include ':fish'
+
+include ':constants'
+include ':fish:fish-datasource'
+include ':fish:fish-datasource-test'
+include ':fish:fish-domain'
+include ':fish:fish-interactors'
+include ':fish:ui-fishList'
+include ':fish:ui-fishDetail'
+include ':components'
