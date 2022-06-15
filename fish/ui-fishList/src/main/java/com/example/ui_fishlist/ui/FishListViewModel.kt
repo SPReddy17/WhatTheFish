@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.DataState
 import com.example.core.Logger
 import com.example.core.UIComponent
-import com.example.fish_domain.Fish
+import com.example.fish_domain.FishFilter
 import com.example.fish_interactors.FilterFishes
 import com.example.fish_interactors.GetFishes
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,12 +44,20 @@ constructor(
             is FishListEvents.UpdateFishName -> {
                 updateFishName(event.fishName)
             }
+            is FishListEvents.UpdateFishFilter -> {
+                updateFishFilter(event.fishFilter)
+            }
         }
+    }
+
+    private fun updateFishFilter(fishFilter: FishFilter) {
+        state.value = state.value.copy(fishFilter = fishFilter)
+        filterFishes()
     }
 
     private fun filterFishes() {
 
-        val filteredList   = filterFishes.execute(
+        val filteredList = filterFishes.execute(
             current = state.value.fishes,
             fishName = state.value.fishName,
             fishFilter = state.value.fishFilter
@@ -57,7 +65,7 @@ constructor(
         state.value = state.value.copy(filteredFishes = filteredList)
     }
 
-    private fun updateFishName(fishName :String) {
+    private fun updateFishName(fishName: String) {
         state.value = state.value.copy(fishName = fishName)
     }
 

@@ -12,12 +12,13 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import coil.ImageLoader
 import com.example.core.ProgressBarState
+import com.example.ui_fishlist.components.FishListFilter
 import com.example.ui_fishlist.components.FishListItem
 import com.example.ui_fishlist.components.FishListToolbar
 import com.example.ui_fishlist.ui.FishListEvents
 import com.example.ui_fishlist.ui.FishListState
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, androidx.compose.animation.ExperimentalAnimationApi::class)
 @Composable
 fun FishList(
     state: FishListState,
@@ -54,6 +55,16 @@ fun FishList(
                 }
             }
         }
+        FishListFilter(
+            fishFilter =
+            state.fishFilter,
+            onUpdateFishFilter = { fishFilter ->
+                events(FishListEvents.UpdateFishFilter(fishFilter))
+            },
+            onCloseDialog = {
+
+            }
+        )
 
         if (state.progressBarState is ProgressBarState.Loading) {
             CircularProgressIndicator(
