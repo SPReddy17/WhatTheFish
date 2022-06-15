@@ -47,6 +47,9 @@ constructor(
             is FishListEvents.UpdateFishFilter -> {
                 updateFishFilter(event.fishFilter)
             }
+            is FishListEvents.UpdateFilterDialogState -> {
+                state.value = state.value.copy(filterDialogState = event.uiComponentState)
+            }
         }
     }
 

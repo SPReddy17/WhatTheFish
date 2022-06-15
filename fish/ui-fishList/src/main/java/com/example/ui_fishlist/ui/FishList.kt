@@ -12,6 +12,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import coil.ImageLoader
 import com.example.core.ProgressBarState
+import com.example.core.UIComponentState
 import com.example.ui_fishlist.components.FishListFilter
 import com.example.ui_fishlist.components.FishListItem
 import com.example.ui_fishlist.components.FishListToolbar
@@ -37,6 +38,7 @@ fun FishList(
                     events(FishListEvents.FilterFishes)
                 },
                 onShowFilterDialog = {
+                    events(FishListEvents.UpdateFilterDialogState(UIComponentState.Show))
                 }
             )
             LazyColumn {
@@ -49,22 +51,22 @@ fun FishList(
                         },
                         imageLoader = imageLoader
                     )
-//                fish.scientificName?.let {
-//                    Text(text = it)
-//                }
                 }
             }
         }
-        FishListFilter(
-            fishFilter =
-            state.fishFilter,
-            onUpdateFishFilter = { fishFilter ->
-                events(FishListEvents.UpdateFishFilter(fishFilter))
-            },
-            onCloseDialog = {
 
-            }
-        )
+        if (state.filterDialogState is UIComponentState.Show) {
+            FishListFilter(
+                fishFilter =
+                state.fishFilter,
+                onUpdateFishFilter = { fishFilter ->
+                    events(FishListEvents.UpdateFishFilter(fishFilter))
+                },
+                onCloseDialog = {
+                    events(FishListEvents.UpdateFilterDialogState(UIComponentState.Hide))
+                }
+            )
+        }
 
         if (state.progressBarState is ProgressBarState.Loading) {
             CircularProgressIndicator(
