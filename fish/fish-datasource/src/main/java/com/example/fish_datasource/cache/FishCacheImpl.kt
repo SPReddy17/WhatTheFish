@@ -100,12 +100,4 @@ class FishCacheImpl(
     override suspend fun searchByName(localizedName: String): List<Fish> {
         TODO("Not yet implemented")
     }
-
-    override suspend fun searchByAttr(primaryAttr: String): List<Fish> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun searchByAttackType(attackType: String): List<Fish> {
-        TODO("Not yet implemented")
-    }
 }

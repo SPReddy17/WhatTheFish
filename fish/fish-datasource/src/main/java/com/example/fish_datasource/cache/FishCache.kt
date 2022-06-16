@@ -20,9 +20,6 @@ interface FishCache {
 
     suspend fun searchByName(localizedName: String): List<Fish>
 
-    suspend fun searchByAttr(primaryAttr: String): List<Fish>
-
-    suspend fun searchByAttackType(attackType: String): List<Fish>
 
     // Can select multiple roles
 //    suspend fun searchByRole(
