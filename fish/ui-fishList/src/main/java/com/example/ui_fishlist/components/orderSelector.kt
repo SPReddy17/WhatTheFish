@@ -16,8 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.example.ui_fishlist.ui.test.TAG_HERO_FILTER_ASC
-import com.example.ui_fishlist.ui.test.TAG_HERO_FILTER_DESC
+import com.example.ui_fishlist.ui.test.TAG_FISH_FILTER_ASC
+import com.example.ui_fishlist.ui.test.TAG_FISH_FILTER_DESC
 
 /**
  * @param descString: String displayed in the "descending" checkbox
@@ -45,7 +45,7 @@ fun OrderSelector(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 24.dp, bottom = 8.dp)
-                .testTag(TAG_HERO_FILTER_DESC)
+                .testTag(TAG_FISH_FILTER_DESC)
                 .clickable(
                     interactionSource = MutableInteractionSource(),
                     indication = null, // disable the highlight
@@ -94,7 +94,7 @@ fun OrderSelector(
             Checkbox(
                 modifier = Modifier
                     .padding(end = 8.dp)
-                    .testTag(TAG_HERO_FILTER_ASC)
+                    .testTag(TAG_FISH_FILTER_ASC)
                     .align(Alignment.CenterVertically)
                 ,
                 enabled= isEnabled,

@@ -13,63 +13,65 @@ import io.ktor.http.*
 
 class FishServiceFake {
 
-    private val Url.hostWithPortIfRequired: String get() = if (port == protocol.defaultPort) host else hostWithPort
-    private val Url.fullUrl: String get() = "${protocol.name}://$hostWithPortIfRequired$fullPath"
+    companion object Factory {
+        private val Url.hostWithPortIfRequired: String get() = if (port == protocol.defaultPort) host else hostWithPort
+        private val Url.fullUrl: String get() = "${protocol.name}://$hostWithPortIfRequired$fullPath"
 
-    fun build(
-        type: FishServiceResponseType
-    ): FishService {
-        val client = HttpClient(MockEngine) {
-            install(JsonFeature) {
-                serializer = KotlinxSerializer(
-                    kotlinx.serialization.json.Json {
-                        ignoreUnknownKeys = true
-                    }
-                )
-            }
-            engine {
-                addHandler { request ->
-                    when (request.url.fullUrl) {
-                        "https://www.fishwatch.gov/api/species" -> {
-                            val responseHeaders = headersOf(
-                                "Content-Type" to listOf("application/json", "charset=utf-8")
-                            )
-                            when (type) {
-                                is FishServiceResponseType.EmptyList -> {
-                                    respond(
-                                        FishDataEmpty.data,
-                                        status = HttpStatusCode.OK,
-                                        headers = responseHeaders
-                                    )
-                                }
-                                is FishServiceResponseType.Malformed -> {
-                                    respond(
-                                        FishDataMalformed.data,
-                                        status = HttpStatusCode.OK,
-                                        headers = responseHeaders
-                                    )
-                                }
-                                is FishServiceResponseType.GoodData -> {
-                                    respond(
-                                        FishDataValid.data,
-                                        status = HttpStatusCode.OK,
-                                        headers = responseHeaders
-                                    )
-                                }
-                                is FishServiceResponseType.Http404 -> {
-                                    respond(
-                                        FishDataEmpty.data,
-                                        status = HttpStatusCode.NotFound,
-                                        headers = responseHeaders
-                                    )
+        fun build(
+            type: FishServiceResponseType
+        ): FishService {
+            val client = HttpClient(MockEngine) {
+                install(JsonFeature) {
+                    serializer = KotlinxSerializer(
+                        kotlinx.serialization.json.Json {
+                            ignoreUnknownKeys = true
+                        }
+                    )
+                }
+                engine {
+                    addHandler { request ->
+                        when (request.url.fullUrl) {
+                            "https://www.fishwatch.gov/api/species" -> {
+                                val responseHeaders = headersOf(
+                                    "Content-Type" to listOf("application/json", "charset=utf-8")
+                                )
+                                when (type) {
+                                    is FishServiceResponseType.EmptyList -> {
+                                        respond(
+                                            FishDataEmpty.data,
+                                            status = HttpStatusCode.OK,
+                                            headers = responseHeaders
+                                        )
+                                    }
+                                    is FishServiceResponseType.Malformed -> {
+                                        respond(
+                                            FishDataMalformed.data,
+                                            status = HttpStatusCode.OK,
+                                            headers = responseHeaders
+                                        )
+                                    }
+                                    is FishServiceResponseType.GoodData -> {
+                                        respond(
+                                            FishDataValid.data,
+                                            status = HttpStatusCode.OK,
+                                            headers = responseHeaders
+                                        )
+                                    }
+                                    is FishServiceResponseType.Http404 -> {
+                                        respond(
+                                            FishDataEmpty.data,
+                                            status = HttpStatusCode.NotFound,
+                                            headers = responseHeaders
+                                        )
+                                    }
                                 }
                             }
+                            else -> error("Unhandled ${request.url.fullUrl}")
                         }
-                        else -> error("Unhandled ${request.url.fullUrl}")
                     }
                 }
             }
+            return FishServiceImpl(client)
         }
-        return FishServiceImpl(client)
     }
 }

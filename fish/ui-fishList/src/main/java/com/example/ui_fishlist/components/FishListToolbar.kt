@@ -21,9 +21,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-
-import com.example.ui_fishlist.ui.test.TAG_HERO_FILTER_BTN
-import com.example.ui_fishlist.ui.test.TAG_HERO_SEARCH_BAR
+import com.example.ui_fishlist.ui.test.TAG_FISH_FILTER_BTN
+import com.example.ui_fishlist.ui.test.TAG_FISH_SEARCH_BAR
 
 @ExperimentalComposeUiApi
 @Composable
@@ -48,7 +47,7 @@ fun FishListToolbar(
                 modifier = Modifier
                     .fillMaxWidth(.9f)
                     .padding(8.dp)
-                    .testTag(TAG_HERO_SEARCH_BAR),
+                    .testTag(TAG_FISH_SEARCH_BAR),
                 value = fishName,
                 onValueChange = {
                     onFishNameChanged(it)
@@ -75,11 +74,12 @@ fun FishListToolbar(
                     .clickable {
                         onShowFilterDialog()
                     }
+                    .testTag(TAG_FISH_FILTER_BTN)
             ) {
                 Icon(
                     modifier = Modifier
                         .padding(8.dp)
-                        .testTag(TAG_HERO_FILTER_BTN),
+                       ,
                     imageVector = Icons.Filled.MoreVert,
                     contentDescription = "Filter Icon"
                 )

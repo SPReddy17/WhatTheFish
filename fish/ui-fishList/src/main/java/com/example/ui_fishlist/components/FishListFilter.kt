@@ -16,9 +16,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.example.core.FilterOrder
 import com.example.fish_domain.FishFilter
-import com.example.ui_fishlist.ui.test.TAG_HERO_FILTER_DIALOG
-import com.example.ui_fishlist.ui.test.TAG_HERO_FILTER_DIALOG_DONE
-import com.example.ui_fishlist.ui.test.TAG_HERO_FILTER_HERO_CHECKBOX
+import com.example.ui_fishlist.ui.test.TAG_FISH_FILTER_DIALOG
+import com.example.ui_fishlist.ui.test.TAG_FISH_FILTER_DIALOG_DONE
+import com.example.ui_fishlist.ui.test.TAG_FISH_FILTER_FISH_CHECKBOX
 
 @ExperimentalAnimationApi
 @Composable
@@ -30,7 +30,7 @@ fun FishListFilter(
     AlertDialog(
         modifier = Modifier
             .padding(16.dp)
-            .testTag(TAG_HERO_FILTER_DIALOG)
+            .testTag(TAG_FISH_FILTER_DIALOG)
         ,
         onDismissRequest = {
             onCloseDialog()
@@ -87,7 +87,7 @@ fun FishListFilter(
                 Row( // make the icon larger so it's easier to click
                     modifier = Modifier
                         .align(Alignment.End)
-                        .testTag(TAG_HERO_FILTER_DIALOG_DONE)
+                        .testTag(TAG_FISH_FILTER_DIALOG_DONE)
                         .clickable {
                             onCloseDialog()
                         }
@@ -132,7 +132,7 @@ fun FishFilterSelector(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 12.dp)
-                .testTag(TAG_HERO_FILTER_HERO_CHECKBOX)
+                .testTag(TAG_FISH_FILTER_FISH_CHECKBOX)
                 .clickable(
                     interactionSource = MutableInteractionSource(),
                     indication = null, // disable the highlight
