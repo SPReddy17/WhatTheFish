@@ -10,7 +10,6 @@ class Logger(
         } else {
             printLogD(tag, msg)
         }
-
     }
 
     companion object Factory {
