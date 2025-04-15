@@ -12,6 +12,7 @@ fun GenericDialog(
     description: String? = null,
     onRemoveHeadFromQueue: () -> Unit,
 ) {
+    // testing purposes
     AlertDialog(
         modifier = modifier,
         onDismissRequest = {
