@@ -20,7 +20,7 @@ jobs:
     steps:
     - uses: actions/stale@v5
       with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        repo-token: ${{ secrets.TESTING }}
         stale-issue-message: 'Stale issue message'
         days-before-stale: 1
         days-before-close: 1
