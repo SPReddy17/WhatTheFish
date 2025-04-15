@@ -7,4 +7,10 @@ dependencies {
     "implementation"(project(Modules.fishDomain))
 
     "implementation"(Kotlinx.coroutinesCore) // need for flows
+
+    "implementation"(project(Modules.fishDataSourceTest))
+    "implementation"(Junit.junit4)
+    "implementation"(Ktor.ktorClientMock)
+    "implementation"(Ktor.clientSerialization)
+
 }

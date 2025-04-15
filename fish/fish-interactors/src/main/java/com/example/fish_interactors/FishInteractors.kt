@@ -29,6 +29,4 @@ data class FishInteractors(
         val dbName: String = FishCache.dbName
     }
 
-
-
 }

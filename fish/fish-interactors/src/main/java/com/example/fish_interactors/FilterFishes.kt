@@ -1,10 +1,8 @@
 package com.example.fish_interactors
 
-import com.example.core.DataState
 import com.example.core.FilterOrder
 import com.example.fish_domain.Fish
 import com.example.fish_domain.FishFilter
-import kotlinx.coroutines.flow.Flow
 
 class FilterFishes {
 

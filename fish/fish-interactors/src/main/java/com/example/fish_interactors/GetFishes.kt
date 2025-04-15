@@ -32,7 +32,6 @@ class GetFishes(
             }
 
             //cache the network data
-            println(" photos fishes from getFishes ${fishes[0].speciesIllustrationPhoto}")
             cache.insert(fishes)
 
             //emit the data from cache

@@ -17,7 +17,7 @@ class GetFishFromCache(
 
         try {
             emit(DataState.Loading(progressBarState = ProgressBarState.Loading))
-
+            kotlinx.coroutines.delay(2000)
             val cachedFish = cache.getFish(scientificName)
 
             if (cachedFish == null) {

@@ -17,7 +17,7 @@ android {
         targetSdk = Android.targetSdk
         versionCode = Android.versionCode
         versionName = Android.versionName
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.example.whatthefish.CustomTestRunner"
     }
 
     buildTypes {
@@ -48,9 +48,12 @@ android {
 dependencies{
     implementation(project(Modules.core))
     implementation(project(Modules.fishDomain))
+    implementation(project(Modules.fishDataSource))
     implementation(project(Modules.fishInteractors))
     implementation(project(Modules.ui_fishList))
     implementation(project(Modules.ui_fishDetail))
+
+    implementation(Accompanist.animations)
 
     implementation(AndroidX.coreKtx)
     implementation(AndroidX.appCompat)
@@ -66,9 +69,17 @@ dependencies{
 
     implementation(Google.material)
     implementation(Hilt.android)
+    implementation("androidx.test:runner:1.4.0")
     kapt(Hilt.compiler)
 
     implementation(SqlDelight.androidDriver)
+
+    implementation(project(Modules.fishDataSourceTest))
+    androidTestImplementation(AndroidXTest.runner)
+    androidTestImplementation(ComposeTest.uiTestJunit4)
+    androidTestImplementation(HiltTest.hiltAndroidTesting)
+    kaptAndroidTest(Hilt.compiler)
+    androidTestImplementation(Junit.junit4)
 
 }
 
