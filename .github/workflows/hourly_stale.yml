@@ -1,0 +1,44 @@
+name: Close Stale PR After 1 Hour
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-stale:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR Update Time
+        id: check_time
+        run: |
+          # Get the current time in Unix format
+          CURRENT_TIME=$(date +%s)
+
+          # Get the last updated time of the PR using GitHub API
+          PR_UPDATE_TIME=$(curl -s \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}" | jq '.updated_at' | sed 's/"//g')
+
+          # Convert the last updated time to Unix timestamp
+          PR_UPDATE_TIMESTAMP=$(date -d "$PR_UPDATE_TIME" +%s)
+
+          # Calculate the time difference
+          TIME_DIFF=$((CURRENT_TIME - PR_UPDATE_TIMESTAMP))
+
+          # Set a threshold of 1 hour (3600 seconds)
+          if [ "$TIME_DIFF" -ge 3600 ]; then
+            echo "PR is stale. It was last updated more than 1 hour ago."
+
+            # Close the PR using the GitHub API
+            curl -s \
+              -X PATCH \
+              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              -d '{"state": "closed"}' \
+              "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}"
+
+            echo "PR has been closed."
+          else
+            echo "PR is not stale. Last updated $((TIME_DIFF / 60)) minutes ago."
+          fi
