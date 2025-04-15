@@ -12,6 +12,7 @@ data class FishInteractors(
     companion object Factory {
 
 
+
         fun build(sqlDriver :SqlDriver): FishInteractors {
             val service = FishService.build()
             val cache  = FishCache.build(sqlDriver)
