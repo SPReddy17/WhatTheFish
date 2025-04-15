@@ -17,6 +17,7 @@ import com.example.ui_fishdetail.ui.FishDetail
 import com.example.ui_fishdetail.ui.FishDetailViewModel
 import com.example.ui_fishlist.ui.FishList
 import com.example.ui_fishlist.ui.FishListViewModel
+import com.example.whatthefish.BuildConfig
 import com.example.whatthefish.ui.navigation.Screen
 import com.example.whatthefish.ui.theme.WhatTheFishTheme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -37,6 +38,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        println("BASE_URL -> ${BuildConfig.BASEURL}")
 
         val getFishes = FishInteractors.build(
             sqlDriver = AndroidSqliteDriver(
