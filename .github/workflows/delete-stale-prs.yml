@@ -6,14 +6,14 @@ on:
 
 jobs:
     delete-stale-prs:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout repository
-        uses: actions/checkout@v2
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v2
 
-        - name: Delete stale PRs
-        uses: peter-evans/close-pull-request@v2
-        with:
-          repo-token: ${{secrets.TESTING}}
-          stale-pr-days: 1 #no of days
-          close-message: 'This PR has been closed due to inacitivity.'
+          - name: Delete stale PRs
+            uses: peter-evans/close-pull-request@v2
+            with:
+                repo-token: ${{secrets.TESTING}}
+                stale-pr-days: 1 #no of days
+                close-message: 'This PR has been closed due to inacitivity.'
