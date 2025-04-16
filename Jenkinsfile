@@ -25,7 +25,12 @@ pipeline {
                                 validResponseCodes: '200'
                         )
 
-                        def prs = readJSON text: response.content
+                        if (response.content?.trim()) {
+                            def prs = readJSON text: response.content
+                        } else {
+                            error "Response content is empty or null"
+                        }
+
 
                         prs.each { pr ->
                             def updatedAt = Date.parse ("yyyy-MM-dd'T'HH: mm: ss 'Z'", pr.updated_at)
