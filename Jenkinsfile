@@ -14,6 +14,7 @@ pipeline {
         stage ('Check and Close PR'){
             steps {
                     script {
+                        import java.text.SimpleDateFormat
                         def staleMinutes = 5 // Define the number of days to consider a PR stale
                         def now = new Date()
                         // def staleDate = now - staleDays
@@ -31,8 +32,14 @@ pipeline {
                             error "Response content is empty or null"
                         }
 
+                        def parseGithubDate(String timestamp) {
+                            def format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                            format.setTimeZone(TimeZone.getTimeZone('UTC'))
+                            return format.parse(timestamp)
+                        }
+
                         prs.each { pr ->
-                            def updatedAt = Date.parse("yyyy-MM-dd'T'HH:mm:ss'Z'", pr.updated_at)
+                            def updatedAt = parseGithubDate(pr.updated_at)
                             def diffInMinutes = (now.time - updated_at.time)/(1000*60)
                             if (diffInMinutes > staleMinutes) {
                                 // Close the stale PR
