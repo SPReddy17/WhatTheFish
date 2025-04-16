@@ -31,7 +31,6 @@ pipeline {
                             error "Response content is empty or null"
                         }
 
-
                         prs.each { pr ->
                             def updatedAt = Date.parse("yyyy-MM-dd'T'HH:mm:ss'Z'", pr.updated_at)
                             def diffInMinutes = (now.time - updated_at.time)/(1000*60)
