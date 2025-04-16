@@ -7,7 +7,7 @@ pipeline {
     }
 
     triggers {
-        cron('H/5 * * * *')
+        cron('0 0 1 * *')
     }
 
     stages {
@@ -24,7 +24,8 @@ pipeline {
                         return format.parse(timestamp)
                     }
 
-                    def staleMinutes = 5 // Define the number of minutes to consider a PR stale
+
+                    def staleMinutes = 30 * 24 * 60 // 30 days
                     def now = new Date()
 
                     // Fetch PRs using GitHub API
