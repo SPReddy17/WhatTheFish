@@ -39,7 +39,7 @@ pipeline {
                                         requestBody: '("state": "closed"}',
                                         validResponseCodes: '200'
                                 )
-                            echo "Closed stale PR #${pr.number} (stale for ${diffInMinutes} minutes)""
+                            echo "Closed stale PR #${pr.number} (stale for ${diffInMinutes} minutes)"
                             }
                         }
                     }

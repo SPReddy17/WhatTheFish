@@ -123,31 +123,6 @@ animalHealth,
     last_update
 ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?);
 
---
--- searchHeroByName:
--- SELECT * FROM fish_Entity
--- WHERE localizedName LIKE ('%' || :query || '%');
-
--- searchHeroByAttr:
--- SELECT * FROM fish_Entity
--- WHERE primaryAttribute = :primaryAttr;
-
--- searchHeroByAttackType:
--- SELECT * FROM fish_Entity
--- WHERE attackType = :attackType;
-
--- searchHeroByRole:
--- SELECT * FROM fish_Entity
--- WHERE roleCarry = :roleCarry
--- AND roleEscape = :roleEscape
--- AND roleNuker = :roleNuker
--- AND roleInitiator = :roleInitiator
--- AND roleDurable = :roleDurable
--- AND roleDisabler = :roleDisabler
--- AND roleJungler = :roleJungler
--- AND roleSupport = :roleSupport
--- AND rolePusher = :rolePusher
--- ;
 
 getHero:
 SELECT * FROM fish_Entity

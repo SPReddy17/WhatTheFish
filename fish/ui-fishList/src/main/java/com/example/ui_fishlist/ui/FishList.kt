@@ -1,10 +1,15 @@
 package com.example.ui_fishlist.ui
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.GridCells.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import com.example.components.DefaultScreenUI
 import com.example.core.UIComponentState
@@ -14,6 +19,7 @@ import com.example.ui_fishlist.components.FishListToolbar
 import com.example.ui_fishlist.ui.FishListEvents
 import com.example.ui_fishlist.ui.FishListState
 
+@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @Composable
@@ -43,7 +49,10 @@ fun FishList(
                     events(FishListEvents.UpdateFilterDialogState(UIComponentState.Show))
                 }
             )
-            LazyColumn {
+            LazyVerticalGrid (
+                cells = Fixed(3),
+            //     Adaptive(minSize = constraints.maxWidth/2)
+                    ){
                 items(state.filteredFishes) { fish ->
 
                     FishListItem(
@@ -55,6 +64,18 @@ fun FishList(
                     )
                 }
             }
+            //
+//            @Composable
+//            fun PhotoGrid(photos: List<Photo>) {
+//                LazyVerticalGrid(
+//                    columns = GridCells.Adaptive(minSize = 128.dp)
+//                ) {
+//                    items(photos) { photo ->
+//                        PhotoItem(photo)
+//                    }
+//                }
+//            }
+            //
         }
 
         if (state.filterDialogState is UIComponentState.Show) {
