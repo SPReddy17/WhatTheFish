@@ -15,6 +15,7 @@ pipeline {
             steps {
                     script {
                         import java.text.SimpleDateFormat
+                        import java.util.TimeZone
                         def staleMinutes = 5 // Define the number of days to consider a PR stale
                         def now = new Date()
                         // def staleDate = now - staleDays
@@ -32,10 +33,10 @@ pipeline {
                             error "Response content is empty or null"
                         }
 
-                        def parseGithubDate(String timestamp) {
-                            def format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-                            format.setTimeZone(TimeZone.getTimeZone('UTC'))
-                            return format.parse(timestamp)
+                        def parseGithubDate = { String timestamp ->
+                                def format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                                format.setTimeZone(TimeZone.getTimeZone('UTC'))
+                                return format.parse(timestamp)
                         }
 
                         prs.each { pr ->
