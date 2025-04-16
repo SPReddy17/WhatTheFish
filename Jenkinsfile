@@ -20,28 +20,28 @@ pipeline {
 
                         // Fetch PRs using GitHub API
                         def response = httpRequest(
-                                url: "${env.GITHUB_REPO}/pulls",
+                                url: "https://api.github.com/repos/SPReddy17/WhatTheFish/pulls",
                                 customHeaders: [[name: 'Authorization', value: "Bearer ${env.GITHUB_TOKEN}"]],
                                 validResponseCodes: '200'
                         )
-
+                        def prs = []
                         if (response.content?.trim()) {
-                            def prs = readJSON text: response.content
+                            prs = readJSON text: response.content
                         } else {
                             error "Response content is empty or null"
                         }
 
 
                         prs.each { pr ->
-                            def updatedAt = Date.parse ("yyyy-MM-dd'T'HH: mm: ss 'Z'", pr.updated_at)
+                            def updatedAt = Date.parse("yyyy-MM-dd'T'HH:mm:ss'Z'", pr.updated_at)
                             def diffInMinutes = (now.time - updated_at.time)/(1000*60)
                             if (diffInMinutes > staleMinutes) {
                                 // Close the stale PR
                                 httpRequest(
                                         httpMode: 'PATCH',
-                                        url: "${env.GITHUB_REP0}/pulls/${pr.number}",
+                                        url: "${env.GITHUB_REPO}/pulls/${pr.number}",
                                         customHeaders: [[name: 'Authorization', value: "Bearer ${env.GITHUB_TOKEN}"]],
-                                        requestBody: '("state": "closed"}',
+                                        requestBody: '{"state": "closed"}',
                                         validResponseCodes: '200'
                                 )
                             echo "Closed stale PR #${pr.number} (stale for ${diffInMinutes} minutes)"
