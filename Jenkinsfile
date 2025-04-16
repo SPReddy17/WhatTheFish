@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         GITHUB_TOKEN = credentials('wtf-token')
-        GITHUB_REPO = 'https://github.com/SPReddy17/WhatTheFish.git'
+        GITHUB_REPO = 'https://github.com/SPReddy17/WhatTheFish'
     }
 
     triggers {
