@@ -24,6 +24,7 @@ pipeline {
                         return format.parse(timestamp)
                     }
 
+
                     def staleMinutes = 5 // Define the number of minutes to consider a PR stale
                     def now = new Date()
 
