@@ -16,10 +16,11 @@ pipeline {
                 script {
 
 
+
                     // Define the date format for GitHub timestamps
                     def parseGithubDate = { String timestamp ->
                         def format = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-                        format.setTimeZone(java.util.TimeZone.getTimeZone.('UTC'))
+                        format.setTimeZone(java.util.TimeZone.getTimeZone("UTC"))
                         return format.parse(timestamp)
                     }
 
