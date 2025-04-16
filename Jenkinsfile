@@ -28,7 +28,7 @@ pipeline {
 
                     // Fetch PRs using GitHub API
                     def response = httpRequest(
-                        url: "https://api.github.com/repos/SPReddy17/WhatTheFish/pulls",
+                        url: "${env.GITHUB_REPO}/pulls",
                         customHeaders: [[name: 'Authorization', value: "Bearer ${env.GITHUB_TOKEN}"]],
                         validResponseCodes: '200'
                     )
@@ -50,7 +50,7 @@ pipeline {
                                 // Close the stale PR
                                 def closeResponse = httpRequest(
                                     httpMode: 'PATCH',
-                                    url: "https://api.github.com/repos/SPReddy17/WhatTheFish/pulls/${pr.number}",
+                                    url: "${env.GITHUB_REPO}/pulls/${pr.number}",
                                     customHeaders: [[name: 'Authorization', value: "Bearer ${env.GITHUB_TOKEN}"]],
                                     requestBody: '{"state": "closed"}',
                                     validResponseCodes: '200'
