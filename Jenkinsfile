@@ -16,6 +16,12 @@ pipeline {
                     script {
                         import java.text.SimpleDateFormat
                         import java.util.TimeZone
+
+                         def parseGithubDate = { String timestamp ->
+                                def format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                                format.setTimeZone(TimeZone.getTimeZone('UTC'))
+                                return format.parse(timestamp)
+                        }
                         def staleMinutes = 5 // Define the number of days to consider a PR stale
                         def now = new Date()
                         // def staleDate = now - staleDays
@@ -32,28 +38,24 @@ pipeline {
                         } else {
                             error "Response content is empty or null"
                         }
-
-                        def parseGithubDate = { String timestamp ->
-                                def format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-                                format.setTimeZone(TimeZone.getTimeZone('UTC'))
-                                return format.parse(timestamp)
-                        }
-
                         prs.each { pr ->
-                            def updatedAt = parseGithubDate(pr.updated_at)
-                            def diffInMinutes = (now.time - updated_at.time)/(1000*60)
-                            if (diffInMinutes > staleMinutes) {
-                                // Close the stale PR
-                                httpRequest(
+                            try {
+                                def updatedAt = parseGithubDate(pr.updated_at)
+                                def diffInMinutes = (now.time - updated_at.time)/(1000*60)
+                                if (diffInMinutes > staleMinutes) {
+                                    // Close the stale PR
+                                    httpRequest(
                                         httpMode: 'PATCH',
                                         url: "${env.GITHUB_REPO}/pulls/${pr.number}",
                                         customHeaders: [[name: 'Authorization', value: "Bearer ${env.GITHUB_TOKEN}"]],
                                         requestBody: '{"state": "closed"}',
                                         validResponseCodes: '200'
-                                )
-                            echo "Closed stale PR #${pr.number} (stale for ${diffInMinutes} minutes)"
-                            }
-                        }
+                                    )
+                                    echo "Closed stale PR #${pr.number} (stale for ${diffInMinutes} minutes)"
+                                }
+                            } catch (Exception e) {
+                                     echo "Failed to handle PR #${pr.number}: ${e}"
+                                }
                     }
             }
        }
