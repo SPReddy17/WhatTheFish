@@ -39,7 +39,7 @@ pipeline {
                                 // Close the stale PR
                                 httpRequest(
                                         httpMode: 'PATCH',
-                                        url: "https://api.github.com/repos/${env.GITHUB_REP0}/pulls/${pr.number}",
+                                        url: "${env.GITHUB_REP0}/pulls/${pr.number}",
                                         customHeaders: [[name: 'Authorization', value: "Bearer ${env.GITHUB_TOKEN}"]],
                                         requestBody: '("state": "closed"}',
                                         validResponseCodes: '200'
