@@ -103,7 +103,7 @@ constructor(
     }
 
     private fun appendToMessageQueue(uiComponent: UIComponent){
-        val queue = state.value.errorQueue
+        val queue: Queue<UIComponent> = state.value.errorQueue
         queue.add(uiComponent)
         state.value = state.value.copy(errorQueue = Queue(mutableListOf())) //forces recompose
         state.value = state.value.copy(errorQueue =  queue)

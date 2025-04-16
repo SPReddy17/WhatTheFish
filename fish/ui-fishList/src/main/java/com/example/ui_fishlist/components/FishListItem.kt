@@ -39,10 +39,10 @@ fun FishListItem(
             },
         elevation = 8.dp
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             val painter = rememberImagePainter(
                 fish.speciesIllustrationPhoto?.src,

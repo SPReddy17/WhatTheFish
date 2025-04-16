@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
-
+import java.util.*
+import java.io.*
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -19,10 +20,49 @@ android {
         versionName = Android.versionName
         testInstrumentationRunner = "com.example.whatthefish.CustomTestRunner"
     }
+    signingConfigs {
+        getByName("debug") {
+            keyAlias = "fish-debug"
+            keyPassword = "release"
+            storeFile = file("key/debug.jks")
+            storePassword = "release"
+        }
+        create("release") {
+            var yellowfinKeystorePassword = System.getenv("YELLOWFIN_RELEASE_STORE_PASSWORD")
+            var yellowfinKeyPassword = System.getenv("YELLOWFIN_RELEASE_KEY_PASSWORD")
+            var yellowfinKeyAlias = System.getenv("YELLOWFIN_RELEASE_KEY_ALIAS")
 
+            if (yellowfinKeystorePassword == null || yellowfinKeyPassword == null || yellowfinKeyAlias == null) {
+                val keystorePropertiesFile = rootProject.file("keystore.properties")
+                val keystoreProperties = Properties()
+                keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+                yellowfinKeystorePassword = keystoreProperties["storePassword"] as String?
+                yellowfinKeyAlias = keystoreProperties["keyAlias"] as String?
+                yellowfinKeyPassword = keystoreProperties["keyPassword"] as String?
+            }
+            storeFile = file("key/release.jks")
+            keyAlias = yellowfinKeyAlias
+            keyPassword = yellowfinKeyPassword
+            storePassword = yellowfinKeystorePassword
+
+//            keyAlias = "fish-release"
+//            keyPassword = "release"
+//            storePassword = "release"
+        }
+    }
     buildTypes {
         getByName("release") {
+            isMinifyEnabled = true
+            signingConfig = signingConfigs.getByName("release")
+            isDebuggable = false
+            buildConfigField("String", "BASEURL",  "\"http://10.0.2.2:9011\"")
+        }
+        getByName("debug") {
+             applicationIdSuffix = ".debug"
+            signingConfig = signingConfigs.getByName("debug")
+            isDebuggable = true
             isMinifyEnabled = false
+            buildConfigField("String", "BASEURL",  "\"http://10.0.2.2:8080\"")
         }
     }
     buildFeatures {
