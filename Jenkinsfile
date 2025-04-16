@@ -14,8 +14,6 @@ pipeline {
         stage('Check and Close PR') {
             steps {
                 script {
-                    import java.text.SimpleDateFormat
-                    import java.util.TimeZone
 
                     // Define the date format for GitHub timestamps
                     def parseGithubDate = { String timestamp ->
