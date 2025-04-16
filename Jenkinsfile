@@ -20,7 +20,7 @@ pipeline {
 
                         // Fetch PRs using GitHub API
                         def response = httpRequest(
-                                url: "https://api.github.com/repos/${env.GITHUB_REPO}/pulls",
+                                url: "${env.GITHUB_REPO}/pulls",
                                 customHeaders: [[name: 'Authorization', value: "Bearer ${env.GITHUB_TOKEN}"]],
                                 validResponseCodes: '200'
                         )
